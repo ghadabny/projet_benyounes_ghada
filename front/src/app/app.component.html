@@ -1,0 +1,106 @@
+<html>
+  <body>
+    <nav *ngIf="cnx && afficherCatalogue" class="main-nav">
+      <div class="nav-left">
+        <button class="custom-button2" (click)="afficherPanier = false">Catalogue</button>
+      </div>
+      <div class="nav-right">
+        <button class="custom-button2" (click)="basculerPanier()">Panier</button>
+      </div>
+    </nav>
+
+    <div *ngIf="!cnx && !afficherInscription" class="login-form-container">
+      <div class="login-form">
+        <h1 class="login-title">Connexion</h1>
+        <form>
+          <label for="login">Login :</label>
+          <input class="input-modern" [(ngModel)]="login" name="login" /><br />
+          <label for="password">Password :</label>
+          <input class="input-modern" [(ngModel)]="password" type="password" name="password" /><br />
+          <br>
+          <button class="custom-button2" (click)="connexion()">Connexion</button>
+          <br><br>
+          <button class="custom-button2" (click)="basculerInscription()">Inscrivez vous</button>
+        </form>
+      </div>
+    </div>
+
+
+
+   
+    <div *ngIf="!cnx && afficherInscription" class="inscription-form-container">
+      <div class="inscription-form">
+        <h1 class="inscription-title">Inscription</h1>
+        <form>
+          <label for="nom">Nom :</label>
+          <input class="input-modern" [(ngModel)]="nom" name="nom" /><br />
+
+          <label for="prenom">Prénom :</label>
+          <input class="input-modern" [(ngModel)]="prenom" name="prenom" /><br />
+
+          <label for="email">Email :</label>
+          <input class="input-modern" [(ngModel)]="email" type="email" name="email" /><br />
+
+          <label for="password">Mot de passe :</label>
+          <input class="input-modern" [(ngModel)]="password" type="password" name="password" /><br />
+
+          <button class="custom-button3" (click)="inscription()">S'inscrire</button>
+        </form>
+        <button class="custom-button3" (click)="afficherInscription = false; connexion()">Connexion</button>
+      </div>
+    </div>
+
+    <div *ngIf="cnx && !afficherCatalogue" class="center-container">
+      <p class="welcome-message">Bienvenue {{ nom }}  {{ prenom }}</p>
+      <br>
+      <button class="custom-button" (click)="afficherCatalogue = true">Afficher le Catalogue</button>
+    </div>
+
+    <div *ngIf="cnx && !afficherPanier && afficherCatalogue" >
+    <br>
+      <p class="welcome-message">Le Catalogue de {{ nom }}  {{ prenom }}</p> 
+      <br>
+      <input #inputSearch type="text" class="netflix-input" placeholder="Recherche..." (input)="searchProducts(inputSearch.value)" />
+      
+      <div *ngIf="searchFailed">Désolé, les produits ne peuvent pas être chargés.</div>
+      <br>
+      <div class="product-grid">
+        <div *ngFor="let produit of produits$ | async" class="product-item">
+          <img [src]="'http://localhost:443/images/' + produit.image" alt="{{ produit.titre }}" />
+          <p class="movie-name">{{ produit.titre }}</p><p>{{ produit.prix }} €</p>
+          <button class="custom-button" (click)="ajouterAuPanier(produit)">Ajouter au Panier</button>
+          <div *ngIf="ajoutConfirmation.get(produit)" class="message-ajout">Article ajouté au panier !</div>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="cnx && afficherPanier" >
+      <p class="welcome-message">Mon Panier</p>
+      <div class="div-panier">
+      <div *ngFor="let article of obtenirArticles(); let i = index">
+        <div class="cart-item">
+        <img [src]="'http://localhost:443/images/' + article.image" alt="{{ article.titre }}" />
+        <p class="movie-name">{{ article.titre }}</p><p>{{ article.prix }} €</p>
+        <button class="custom-button" (click)="supprimerDuPanier(i)">Supprimer</button>
+
+      </div>
+      </div>
+      
+    </div>
+    <br>
+      <button class="custom-button" (click)="viderPanier()">Vider le Panier</button>
+      <br>
+      <br>
+      <button class="custom-button" (click)="calculerEtAfficherTotalPanier()">Payer</button>
+      <br>
+      <div *ngIf="totalPanier !== null">
+        <br>
+        <p class="payment-message">Total à payer : {{ totalPanier }} €</p>
+      </div>
+    </div>
+    <br>
+    
+    <br>
+    <br>
+  </body>
+</html>

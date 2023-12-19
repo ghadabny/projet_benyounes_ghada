@@ -1,0 +1,207 @@
+html {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #F0F0F0; /* Gris très clair */
+  color: #333; /* Gris foncé pour le texte */
+  margin: 0;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;     /* Centre verticalement */           /* Hauteur totale de la vue */
+}
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #E0E0E0;
+}
+
+.nav-left, .nav-right {
+  flex: 1;
+}
+
+.nav-right {
+  text-align: right;
+}
+
+.input-modern {
+  background-color: #FFFFFF; /* Blanc */
+  border: 1px solid #E0E0E0; /* Bordure gris clair */
+  color: #333;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: 100%; /* Ajustement pour une largeur complète */
+}
+
+.welcome-message {
+  font-size: 30px;
+  font-weight: bold; /* Taille de police plus grande */
+  color: #69adf1; /* Couleur claire */
+  margin: 10px 0; /* Espacement ajouté */
+}
+
+.custom-button2 {
+  background-color: #d6d4d4; /* Gris clair */
+  color: #333; 
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}
+
+.payment-message
+{
+  font-size: 16px;
+  color: rgb(224, 64, 64);
+}
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  background-color: #f0f0f0; /* Couleur de fond */
+  border-radius: 15px; /* Coins arrondis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre pour un effet en relief */
+  padding: 20px;
+  width: 50%;
+  margin-top: 10%;
+  margin-left: 25%;
+}
+
+
+.custom-button3{
+  background-color: #69adf1; /* Couleur plus vive */
+  color: #EEF4ED;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  
+
+}
+
+.custom-button2:hover {
+  background-color: #CCCCCC;
+}
+
+.custom-button {
+  background-color: #69adf1; /* Couleur plus vive */
+  color: #EEF4ED;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}
+
+.custom-button:hover {
+  background-color: #5f9bd7; /* Couleur plus claire au survol */
+}
+
+.login-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #F0F0F0;
+}
+
+.login-form {
+  background-color: #E0E0E0;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+}
+
+.netflix-input {
+  background-color: #E0E0E0;
+  border: 1px solid #cdcdcd;
+  color: #333;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 colonnes pour les produits */
+  gap: 20px;
+}
+
+.product-item {
+  background-color: #E0E0E0;
+  border-radius: 5px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.div-panier {
+  margin-top: 50px;
+  padding: 20px;
+  background-color: #E0E0E0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 colonnes pour les éléments du panier */
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.cart-item {
+  background-color: #E0E0E0;
+  margin: 10px;
+  padding: 30px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.movie-name
+{
+  font-size:20px;
+  font-weight: bold;
+}
+
+.div-panier .custom-button {
+  margin: 0; /* Réinitialiser les marges pour les boutons dans le panier */
+}
+
+.product-item img {
+  width: 200px;  /* Largeur fixe pour les images */
+  height: 300px; /* Hauteur fixe pour les images */
+  object-fit: cover; /* Assure que l'image couvre toute la zone sans déformer */
+   
+}
+
+/* Style pour les images dans le panier */
+.cart-item img {
+  width: 200px;  /* Largeur plus petite pour les images dans le panier */
+  height: 300px; /* Hauteur plus petite pour les images dans le panier */
+  object-fit: cover;
+  
+  
+}
