@@ -31,6 +31,11 @@ export class AppComponent implements AfterViewInit {
   ajoutConfirmation: Map<Produit, boolean> = new Map();
   email: string = '';
   afficherInscription: boolean = false;
+  adresse: string = '';
+  codepostal: string = '';
+  ville: string = '';
+  sexe: string = '';
+  telephone: string = '';
   
 
   constructor(private apiService: ApiService, private panierService: PanierService) {
@@ -82,16 +87,19 @@ ngOnInit() {
 
 
   inscription() {
-  this.apiService.inscrireClient(this.nom, this.prenom,this.email,this.password).subscribe({
-    next: (response) => {
-      console.log('Inscription réussie:', response);
-      this.afficherInscription = false;
-      this.cnx = true;
-      this.nom = response.nom;
-      this.prenom = response.prenom;
-    }
-  });
-}
+    this.apiService.inscrireClient(this.nom, this.prenom, this.email, this.password, this.adresse, this.codepostal, this.ville, this.sexe, this.login, this.telephone).subscribe({
+      next: (response) => {
+        console.log('Inscription réussie:', response);
+        this.afficherInscription = false;
+        this.cnx = true;
+        // Mettre à jour les propriétés du composant avec la réponse si nécessaire
+      },
+      error: (error) => {
+        console.error("Erreur lors de l'inscription:", error);
+        // Gérer les erreurs ici, par exemple, afficher un message d'erreur
+      }
+    });
+  }
 
 calculerEtAfficherTotalPanier() {
   let totalTemporaire = 0; // Utilisez une variable locale temporaire

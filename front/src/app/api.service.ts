@@ -26,15 +26,22 @@ export class ApiService {
     );
   }
 
-  public inscrireClient(nom: string, prenom: string, email: string, password: string): Observable<any> {
+  public inscrireClient(nom: string, prenom: string, email: string, password: string, adresse: string, codepostal: string, ville: string, sexe: string, login: string, telephone: string): Observable<any> {
     const data = {
-      nom: nom,
-      prenom: prenom,
-      email: email,
-      password: password
+      nom,
+      prenom,
+      email,
+      password,
+      adresse,
+      codepostal,
+      ville,
+      sexe,
+      login,
+      telephone
     };
     return this.http.post<any>(environment.backendInscriptionUrl, data);
   }
+  
 
   public getCatalogue(): Observable<Produit[]> {
     return this.http.get<Produit[]>(environment.backendCatalogue);

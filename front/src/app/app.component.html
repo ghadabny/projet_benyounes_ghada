@@ -34,16 +34,34 @@
         <form>
           <label for="nom">Nom :</label>
           <input class="input-modern" [(ngModel)]="nom" name="nom" /><br />
-
+    
           <label for="prenom">Prénom :</label>
           <input class="input-modern" [(ngModel)]="prenom" name="prenom" /><br />
-
+    
+          <label for="adresse">Adresse :</label>
+          <input class="input-modern" [(ngModel)]="adresse" name="adresse" /><br />
+    
+          <label for="codepostal">Code Postal :</label>
+          <input class="input-modern" [(ngModel)]="codepostal" name="codepostal" /><br />
+    
+          <label for="ville">Ville :</label>
+          <input class="input-modern" [(ngModel)]="ville" name="ville" /><br />
+    
           <label for="email">Email :</label>
           <input class="input-modern" [(ngModel)]="email" type="email" name="email" /><br />
-
+    
+          <label for="sexe">Sexe :</label>
+          <input class="input-modern" [(ngModel)]="sexe" name="sexe" /><br />
+    
+          <label for="login">Login :</label>
+          <input class="input-modern" [(ngModel)]="login" name="login" /><br />
+    
           <label for="password">Mot de passe :</label>
           <input class="input-modern" [(ngModel)]="password" type="password" name="password" /><br />
-
+    
+          <label for="telephone">Téléphone :</label>
+          <input class="input-modern" [(ngModel)]="telephone" name="telephone" /><br />
+    
           <button class="custom-button3" (click)="inscription()">S'inscrire</button>
         </form>
         <button class="custom-button3" (click)="afficherInscription = false; connexion()">Connexion</button>
