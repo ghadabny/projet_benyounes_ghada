@@ -57,27 +57,36 @@ function generateAccessToken(user) {
 // };
 
 exports.login = (req, res) => {
-  const { login, password } = req.body;
+    const { login, password } = req.body;
 
-  Utilisateur.findOne({ where: { login, password } })
-      .then(utilisateur => {
-          if (!utilisateur) {
-              return res.status(401).send({ message: "Login ou mot de passe incorrect" });
-          }
+    Utilisateur.findOne({ where: { login } })
+        .then(utilisateur => {
+            if (!utilisateur) {
+                return res.status(401).send({ message: "Utilisateur non trouvé" });
+            }
 
-          const userForToken = {
-              id: utilisateur.id,
-              email: utilisateur.email
-          };
+            // Comparez le mot de passe avec le hachage stocké
+            bcrypt.compare(password, utilisateur.password, function(err, result) {
+                if (result) {
+                    // Les mots de passe correspondent
+                    const userForToken = {
+                        id: utilisateur.id,
+                        email: utilisateur.email
+                    };
 
-          let accessToken = generateAccessToken(userForToken);
-          res.setHeader('Authorization', `Bearer ${accessToken}`);
-          res.send(utilisateur);
-      })
-      .catch(err => {
-          console.error('Erreur de connexion:', err);
-          res.status(500).send({ message: "Erreur lors de la connexion" });
-      });
+                    let accessToken = generateAccessToken(userForToken);
+                    res.setHeader('Authorization', `Bearer ${accessToken}`);
+                    res.send(utilisateur);
+                } else {
+                    // Les mots de passe ne correspondent pas
+                    return res.status(401).send({ message: "Mot de passe incorrect" });
+                }
+            });
+        })
+        .catch(err => {
+            console.error('Erreur de connexion:', err);
+            res.status(500).send({ message: "Erreur lors de la connexion" });
+        });
 };
 
 
