@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const sequelize = require('./database/sequelize'); 
+
 
 const app  = express ();
 
@@ -22,6 +24,20 @@ require("./routes")(app);
 
 // set port, listen for requests
 const PORT =  443;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+
+
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}.`);
+// });
+
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connexion à la base de données réussie.');
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}.`);
+    });
+  })
+  .catch(err => {
+    console.error('Impossible de se connecter à la base de données:', err);
+  });
