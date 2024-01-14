@@ -10,6 +10,7 @@ const Catalogue = sequelize.define('Catalogue', {
     image: DataTypes.TEXT,
     ref: DataTypes.TEXT,
     titre: DataTypes.TEXT,
+    description: DataTypes.TEXT,
     prix: DataTypes.FLOAT
 }, {
     tableName: 'catalogue',

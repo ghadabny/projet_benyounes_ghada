@@ -121,7 +121,37 @@ exports.login = (req, res) => {
 
 exports.inscrire = async (req, res) => {
   try {
-      const { nom, prenom, email, login, password } = req.body;
+      const { nom, prenom, email, login, password, adresse, codepostal, ville, sexe, telephone  } = req.body;
+      // Validation de l'email
+
+      if (!nom || !prenom || !email || !password || !login) {
+        return res.status(400).send({ message: "Tous les champs obligatoires doivent être remplis" });
+    }
+    
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+          return res.status(400).send({ message: "Format de l'email invalide" });
+      }
+
+      // Validation du code postal (pour un code postal français)
+      const codePostalRegex = /^[0-9]{5}$/;
+      if (codepostal && !codePostalRegex.test(codepostal)) {
+          return res.status(400).send({ message: "Format de code postal invalide" });
+      }
+
+      // Validation du numéro de téléphone (pour un numéro français)
+      const telephoneRegex = /^[0-9]{10}$/;
+      if (telephone && !telephoneRegex.test(telephone)) {
+          return res.status(400).send({ message: "Format de numéro de téléphone invalide" });
+      }
+
+
+      const emailExists = await Utilisateur.findOne({ where: { email } });
+      const loginExists = await Utilisateur.findOne({ where: { login } });
+      
+      if (emailExists || loginExists) {
+        return res.status(400).send({ message: "L'email ou le login est déjà utilisé" });
+    }
 
       // Hachage du mot de passe
       const salt = await bcrypt.genSalt(10);
@@ -132,7 +162,12 @@ exports.inscrire = async (req, res) => {
           prenom,
           email,
           login,
-          password: hashedPassword
+          password: hashedPassword,
+          adresse,
+          codepostal,
+          ville,
+          sexe,
+          telephone
       });
 
       const userForToken = {

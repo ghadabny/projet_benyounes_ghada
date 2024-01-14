@@ -1,124 +1,176 @@
 <html>
   <body>
-    <nav *ngIf="cnx && afficherCatalogue" class="main-nav">
-      <div class="nav-left">
-        <button class="custom-button2" (click)="afficherPanier = false">Catalogue</button>
+    <nav *ngIf="cnx" class="navigation-menu">
+      <div class="menu-left">
+        <span class="welcome-message"><img src="assets/ImgFront/clap.png" alt="clap" class="icon-panier"/>Bienvenue {{ prenom }}</span>
       </div>
-      <div class="nav-right">
-        <button class="custom-button2" (click)="basculerPanier()">Panier</button>
+      <div class="menu-right">
+        <div *ngIf="!afficherPanier && afficherCatalogue">
+          <button class="menu-button" (click)="basculerPanier()">
+            <img src="assets/ImgFront/panier.png" alt="Panier" class="icon-panier"/>
+            ({{ obtenirNombreArticlesPanier() }})
+          </button>
+        </div>
+        <div *ngIf="afficherPanier">
+          <button class="menu-button" (click)="afficherPanier = false"><img src="assets/ImgFront/accueil.png" alt="Accueil" class="icon-panier"/></button>
+        </div>
       </div>
     </nav>
+    <br>
+    
+
+
+    <div *ngIf="cnx && !afficherCatalogue" class="accueil-container">
+      <p class="bienvenue-texte">Bienvenue {{ prenom }}<img src="assets/ImgFront/agitant-la-main.png" alt="agitant-la-main" class="icon-panier"/></p>
+      <p class="accroche-texte">Découvrez votre prochain coup de cœur cinématographique dès aujourd'hui!</p>
+      <p><a href="#" (click)="afficherCatalogue = true" class="lien-catalogue">Afficher le Catalogue</a><img src="assets/ImgFront/popcorn.png" alt="Popcorn" class="icone-popcorn"></p>
+    </div>
+    
+
+   
 
     <div *ngIf="!cnx && !afficherInscription" class="login-form-container">
       <div class="login-form">
-        <h1 class="login-title">Connexion</h1>
+        <h1 class="login-title">Connectez-vous</h1>
         <form>
           <label for="login">Login :</label>
-          <input class="input-modern" [(ngModel)]="login" name="login" /><br />
+          <input type="text" class="login-input" [(ngModel)]="login" name="login" /><br />
           <label for="password">Password :</label>
-          <input class="input-modern" [(ngModel)]="password" type="password" name="password" /><br />
-          <br>
-          <button class="custom-button2" (click)="connexion()">Connexion</button>
-          <br><br>
-          <button class="custom-button2" (click)="basculerInscription()">Inscrivez vous</button>
+          <input [(ngModel)]="password" type="password" name="password" /><br />
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+          <p><button class="custom-button2" (click)="connexion()">Connexion</button></p>
+          <p class ="inscription"> ou Inscrivez-vous <a href="javascript:void(0);" (click)="basculerInscription()">ici</a></p>
+
         </form>
       </div>
     </div>
+   
 
 
 
    
-    <div *ngIf="!cnx && afficherInscription" class="inscription-form-container">
-      <div class="inscription-form">
-        <h1 class="inscription-title">Inscription</h1>
-        <form>
-          <label for="nom">Nom :</label>
-          <input class="input-modern" [(ngModel)]="nom" name="nom" /><br />
-    
-          <label for="prenom">Prénom :</label>
-          <input class="input-modern" [(ngModel)]="prenom" name="prenom" /><br />
-    
-          <label for="adresse">Adresse :</label>
-          <input class="input-modern" [(ngModel)]="adresse" name="adresse" /><br />
-    
-          <label for="codepostal">Code Postal :</label>
-          <input class="input-modern" [(ngModel)]="codepostal" name="codepostal" /><br />
-    
-          <label for="ville">Ville :</label>
-          <input class="input-modern" [(ngModel)]="ville" name="ville" /><br />
-    
-          <label for="email">Email :</label>
-          <input class="input-modern" [(ngModel)]="email" type="email" name="email" /><br />
-    
-          <label for="sexe">Sexe :</label>
-          <input class="input-modern" [(ngModel)]="sexe" name="sexe" /><br />
-    
-          <label for="login">Login :</label>
-          <input class="input-modern" [(ngModel)]="login" name="login" /><br />
-    
-          <label for="password">Mot de passe :</label>
-          <input class="input-modern" [(ngModel)]="password" type="password" name="password" /><br />
-    
-          <label for="telephone">Téléphone :</label>
-          <input class="input-modern" [(ngModel)]="telephone" name="telephone" /><br />
-    
-          <button class="custom-button3" (click)="inscription()">S'inscrire</button>
-        </form>
-        <button class="custom-button3" (click)="afficherInscription = false; connexion()">Connexion</button>
+<div *ngIf="!cnx && afficherInscription" class="inscription-form-container">
+  <div class="inscription-form">
+    <h1 class="inscription-title">Inscription</h1>
+    <form [formGroup]="inscriptionForm" (ngSubmit)="inscription()">
+      <label for="nom">Nom *:</label>
+      <input type="text"  formControlName="nom" /><br />
+      <div *ngIf="inscriptionForm.get('nom')?.invalid && (inscriptionForm.get('nom')?.dirty || inscriptionForm.get('nom')?.touched)"></div>
+      <div class= "error-input" *ngIf="inscriptionForm.get('nom')?.errors?.['required']">Le nom est requis.</div>
+  
+      <label for="prenom">Prénom *:</label>
+      <input type="text" formControlName="prenom" /><br />
+      <div *ngIf="inscriptionForm.get('prenom')?.invalid && (inscriptionForm.get('prenom')?.dirty || inscriptionForm.get('prenom')?.touched)"></div>
+      <div class= "error-input" *ngIf="inscriptionForm.get('prenom')?.errors?.['required']">Le prenom est requis.</div>
+  
+  
+      <label for="adresse">Adresse :</label>
+      <input type="text" formControlName="adresse" /><br />
+  
+      <label for="codepostal">Code Postal :</label>
+      <input type="text" formControlName="codepostal" /><br />
+      <div *ngIf="inscriptionForm.get('codepostal')?.invalid && (inscriptionForm.get('codepostal')?.dirty || inscriptionForm.get('codepostal')?.touched)">
+        <div class= "error-input" *ngIf="inscriptionForm.get('codepostal')?.errors?.['pattern']">Le format du code postal est invalide.</div>
       </div>
-    </div>
+  
+      <label for="ville">Ville :</label>
+      <input type="text" formControlName="ville" /><br />
+  
+      <label for="email">Email :</label>
+      <input type="email" formControlName="email" type="email" /><br />
+      <div *ngIf="inscriptionForm.get('email')?.invalid && (inscriptionForm.get('email')?.dirty || inscriptionForm.get('email')?.touched)"></div>
+      <div class= "error-input" *ngIf="inscriptionForm.get('email')?.errors?.['email'] ">Le format de l'email est invalide.</div>
+      <div class= "error-input" *ngIf="inscriptionForm.get('email')?.errors?.['required']">Le mail est requis.</div>
+  
+      <label for="sexe">Sexe :</label>
+      <select type="text" formControlName="sexe">
+        <option value="femme">Femme</option>
+        <option value="homme">Homme</option>
+      </select>
+  
+      <label for="login">Login *:</label>
+      <input type="text" formControlName="login" /><br />
+      <div *ngIf="inscriptionForm.get('login')?.invalid && (inscriptionForm.get('login')?.dirty || inscriptionForm.get('login')?.touched)"></div>
+      <div class= "error-input" *ngIf="inscriptionForm.get('login')?.errors?.['required']">Le Login est requis.</div>
 
-    <div *ngIf="cnx && !afficherCatalogue" class="center-container">
-      <p class="welcome-message">Bienvenue {{ nom }}  {{ prenom }}</p>
-      <br>
-      <button class="custom-button" (click)="afficherCatalogue = true">Afficher le Catalogue</button>
-    </div>
+  
+      <label for="password">Mot de passe *:</label>
+      <input type="text" formControlName="password" type="password" /><br />
+      <div  *ngIf="inscriptionForm.get('password')?.invalid && (inscriptionForm.get('password')?.dirty || inscriptionForm.get('password')?.touched)"></div>
+      <div class= "error-input" *ngIf="inscriptionForm.get('password')?.errors?.['required']">Le mot de passe est requis.</div>
 
-    <div *ngIf="cnx && !afficherPanier && afficherCatalogue" >
-    <br>
-      <p class="welcome-message">Le Catalogue de {{ nom }}  {{ prenom }}</p> 
+      <label for="telephone">Téléphone :</label>
+      <input type="text" formControlName="telephone" />
+      <div *ngIf="inscriptionForm.get('telephone')?.invalid && (inscriptionForm.get('telephone')?.dirty || inscriptionForm.get('telephone')?.touched)"></div>
+      <div class= "error-input" *ngIf="inscriptionForm.get('telephone')?.errors?.['pattern']">Le format du numéro telephone est invalide.</div>
+      <br />
+
+
+      <div *ngIf="InscrerrorMessage" class="error-message">
+        {{ InscrerrorMessage }}
+      </div>
       <br>
-      <input #inputSearch type="text" class="netflix-input" placeholder="Recherche..." (input)="searchProducts(inputSearch.value)" />
-      
-      <div *ngIf="searchFailed">Désolé, les produits ne peuvent pas être chargés.</div>
-      <br>
-      <div class="product-grid">
-        <div *ngFor="let produit of produits$ | async" class="product-item">
-          <img [src]="'http://localhost:443/images/' + produit.image" alt="{{ produit.titre }}" />
-          <p class="movie-name">{{ produit.titre }}</p><p>{{ produit.prix }} €</p>
-          <button class="custom-button" (click)="ajouterAuPanier(produit)">Ajouter au Panier</button>
-          <div *ngIf="ajoutConfirmation.get(produit)" class="message-ajout">Article ajouté au panier !</div>
+      <button type="submit">S'inscrire</button>
+    </form>
+    <button (click)="afficherInscription = false; connexion()">Connexion</button>
+  </div>
+</div>
+
+
+
+<div *ngIf="cnx && !afficherPanier && afficherCatalogue">
+  <input #inputSearch type="text" class="search-input" placeholder="Recherche..." (input)="searchProducts(inputSearch.value)" />
+
+  <div *ngIf="searchFailed">Désolé, les produits ne peuvent pas être chargés.</div>
+
+  <div class="product-grid">
+    <div *ngFor="let produit of produits$ | async" class="grid-item">
+      <img [src]="'http://localhost:443/images/' + produit.image" alt="{{ produit.titre }}" />
+      <p class="title">{{ produit.titre }}</p>
+      <p class ="desciption-text">{{ produit.description }}</p>
+      <p class ="prix-text">{{ produit.prix }} EUR</p>
+      <button class="button-add" (click)="ajouterAuPanier(produit)">Ajouter au Panier</button>
+      <div class="added-item" *ngIf="ajoutConfirmation.get(produit)">Article ajouté au panier !</div>
+    </div>
+  </div>
+</div>
+
+
+    
+<div *ngIf="cnx && afficherPanier" class="panier-container">
+  <p>Mon Panier</p>
+  <div>
+    <div *ngFor="let article of obtenirArticles(); let i = index" class="article-container">
+      <img [src]="'http://localhost:443/images/' + article.image" alt="{{ article.titre }}" class="article-img" />
+      <p class="article-title">{{ article.titre }}</p>
+      <p class="article-price">{{ article.prix }} EUR</p>
+      <div class="quantite-et-poubelle">
+        <p class="quantite-text"> Quantité : {{ article.quantite }}</p>
+        <div class="plus-minus-container">
+          <button (click)="decrementerQuantite(article.ref)" class="button button-plus-minus">-</button>
+          <button (click)="incrementerQuantite(article.ref)" class="button button-plus-minus">+</button>
         </div>
+        
+        <button (click)="supprimerDuPanier(i)" class="button button-poubelle">
+          <img src="assets/ImgFront/poubelle.png" alt="poubelle" class="icon-poubelle"/>
+        </button>
       </div>
     </div>
-    
-    <div *ngIf="cnx && afficherPanier" >
-      <p class="welcome-message">Mon Panier</p>
-      <div class="div-panier">
-      <div *ngFor="let article of obtenirArticles(); let i = index">
-        <div class="cart-item">
-        <img [src]="'http://localhost:443/images/' + article.image" alt="{{ article.titre }}" />
-        <p class="movie-name">{{ article.titre }}</p><p>{{ article.prix }} €</p>
-        <button class="custom-button" (click)="supprimerDuPanier(i)">Supprimer</button>
+  </div>
+  <div class="special-buttons-container">
+    <button (click)="viderPanier()" class="special-button">Vider le Panier</button>
+    <button (click)="passerCommande()" class="special-button">Passer Commande</button>
+  </div>
+</div>
 
-      </div>
-      </div>
-      
-    </div>
-    <br>
-      <button class="custom-button" (click)="viderPanier()">Vider le Panier</button>
-      <br>
-      <br>
-      <button class="custom-button" (click)="calculerEtAfficherTotalPanier()">Payer</button>
-      <br>
-      <div *ngIf="totalPanier !== null">
-        <br>
-        <p class="payment-message">Total à payer : {{ totalPanier }} €</p>
-      </div>
-    </div>
+<br>
+
+    <footer class="footer">
+      <p>&copy; 2024 - Ghada Ben Younes - Tous droits réservés </p>
+    </footer>
     <br>
     
-    <br>
-    <br>
   </body>
 </html>
