@@ -4,7 +4,7 @@ module.exports =  {
 
         "host" :"dpg-cm23hoq1hbls73bu48ig-a.frankfurt-postgres.render.com",
     
-        "port" : "",
+        "port" : "5432",
     
         "user" : "cnamdocker_zsq0_user",
     
