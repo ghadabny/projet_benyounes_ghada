@@ -127,7 +127,7 @@
 
   <div class="product-grid">
     <div *ngFor="let produit of produits$ | async" class="grid-item">
-      <img [src]="'http://localhost:443/images/' + produit.image" alt="{{ produit.titre }}" />
+      <img [src]=" produit.image" alt="{{ produit.titre }}" />
       <p class="title">{{ produit.titre }}</p>
       <p class ="desciption-text">{{ produit.description }}</p>
       <p class ="prix-text">{{ produit.prix }} EUR</p>

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SearchService {
-  private apiUrl = 'http://localhost:443/api/catalogue'
+  private apiUrl = 'https://tp7-6wpr.onrender.com/api/catalogue/get'
 
   constructor(private http: HttpClient) { }
 
